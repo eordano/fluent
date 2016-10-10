@@ -1,8 +1,11 @@
 {
-  "name": "fluent",
+  "name": "fluent-lib",
   "version": "1.0.0",
   "description": "A micro framework for frontend apps",
-  "main": "index.js",
+  "engines": {
+    "node" : ">=6.0.0"
+  },
+  "main": "./src/index.js",
   "scripts": {
     "test": "mocha"
   },
