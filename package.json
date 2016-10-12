@@ -1,5 +1,5 @@
 {
-  "name": "fluent-lib",
+  "name": "fluent",
   "version": "1.0.0",
   "description": "A micro framework for frontend apps",
   "engines": {

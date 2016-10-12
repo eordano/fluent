@@ -56,13 +56,14 @@ function mutateToFailure(namespace, doUpdate) {
 }
 
 function mutateToSuccess(namespace, doUpdate) {
-  return error => {
+  return result => {
     doUpdate(viewModel => {
       return update(viewModel, {
         loading: update(
           viewModel.loading,
-          { [namespace]: contexts.errored(error) }
-        )
+          { [namespace]: contexts.success(result) }
+        ),
+        [ namespace ]: result
       })
     })
   }
@@ -97,7 +98,6 @@ function createFlow(sources) {
   const eventName = 'new state'
 
   const setInitialState = () => ({})
-  onNewMessage(setInitialState)
 
   function onNewMessage(message) {
     updateQueue.push(message)
@@ -152,19 +152,31 @@ function createFlow(sources) {
     events.off(listener)
   }
 
+  function start() {
+    onNewMessage(setInitialState)
+  }
+
   return {
     getState,
     doUpdate,
     subscribe,
-    unsubscribe
+    unsubscribe,
+    start
   }
 }
 
 module.exports = {
   createFlow,
+  update,
 
-  SECONDS, JSON_HEADER, fallbackTimeToNow, update,
+  SECONDS,
+  fallbackTimeToNow,
+
+  JSON_HEADER,
+  turnResponseIntoJson,
+
   OK, LOADING, ERRORED, 
   contexts, mutateToLoading, mutateToSuccess, mutateToFailure, 
+
   simpleFetch, configureSimpleFetch
 }
